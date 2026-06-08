@@ -5,9 +5,10 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-heading: var(--font-dm-sans);
+  /* CSS variable names match Next.js font variable props */
+  --font-heading: var(--font-dm-sans), 'DM Sans Fallback', system-ui, sans-serif;
   --font-sans: var(--font-inter), 'Inter Fallback', system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono), monospace;
+  --font-mono: ui-monospace, 'Cascadia Code', 'Source Code Pro', monospace;
 
   /* FARATECH Brand Color System */
   /* Primary: Deep Navy — trust, precision, authority */
@@ -123,6 +124,9 @@
   }
   html {
     @apply font-sans scroll-smooth;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
   }
 }
 

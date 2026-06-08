@@ -58,13 +58,18 @@ function useCounter(target: number, duration = 2000, trigger: boolean) {
 
   useEffect(() => {
     if (!trigger) return
+    setCount(0)
     const start = Date.now()
     const timer = setInterval(() => {
       const elapsed = Date.now() - start
       const progress = Math.min(elapsed / duration, 1)
       const eased = 1 - Math.pow(1 - progress, 3)
-      setCount(Math.floor(target * eased))
-      if (progress >= 1) clearInterval(timer)
+      const next = Math.floor(target * eased)
+      setCount(next)
+      if (progress >= 1) {
+        setCount(target)
+        clearInterval(timer)
+      }
     }, 16)
     return () => clearInterval(timer)
   }, [target, duration, trigger])
@@ -92,7 +97,7 @@ function StatCard({
   return (
     <div className="text-center group">
       <div className="font-heading text-5xl md:text-6xl font-bold text-[var(--brand-navy)] mb-2 transition-colors group-hover:text-[var(--brand-red)]">
-        {triggered ? displayValue : '0'}
+        {displayValue}
         {stat.suffix}
       </div>
       <div className="font-semibold text-foreground text-sm mb-1">{stat.label}</div>
